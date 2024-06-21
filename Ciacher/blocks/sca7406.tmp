@@ -1,0 +1,94 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfxxgrdmsermq"]
+
+[ext_resource type="Script" path="res://blocks/scanned_list.gd" id="1_a02mu"]
+[ext_resource type="Texture2D" uid="uid://bgef015atq2jy" path="res://assets/checklist.png" id="2_2xmag"]
+
+[node name="ScannedList" type="PanelContainer"]
+offset_right = 729.0
+offset_bottom = 335.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_a02mu")
+
+[node name="_" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="_2" type="HBoxContainer" parent="_"]
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="Label" type="Label" parent="_/_2"]
+layout_mode = 2
+text = "       Select day: "
+
+[node name="daySelect" type="OptionButton" parent="_/_2"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="_2" type="Label" parent="_/_2"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Database"
+
+[node name="_" type="TextureRect" parent="_/_2"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("2_2xmag")
+expand_mode = 1
+
+[node name="_" type="PanelContainer" parent="_"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="_" type="VBoxContainer" parent="_/_"]
+layout_mode = 2
+
+[node name="title" type="HBoxContainer" parent="_/_/_"]
+visible = false
+layout_mode = 2
+
+[node name="_2" type="Label" parent="_/_/_/title"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Time"
+horizontal_alignment = 1
+
+[node name="_3" type="Label" parent="_/_/_/title"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Serial Number"
+horizontal_alignment = 1
+
+[node name="_" type="Label" parent="_/_/_/title"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Softwhare Date"
+horizontal_alignment = 1
+
+[node name="_5" type="Label" parent="_/_/_/title"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Veryfied"
+horizontal_alignment = 1
+
+[node name="_" type="ScrollContainer" parent="_/_/_"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="list" type="VBoxContainer" parent="_/_/_/_"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="_"]
+layout_mode = 2
+
+[node name="Info" type="Label" parent="_/HBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Done: 123"
+
+[connection signal="item_selected" from="_/_2/daySelect" to="." method="_on_day_select_item_selected"]

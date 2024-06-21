@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://8utvumhg4cta"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_de1tk"]
+[ext_resource type="PackedScene" uid="uid://cfxxgrdmsermq" path="res://blocks/scanned_list.tscn" id="2_vj5fw"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_de1tk")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.15
+
+[node name="_" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="start_menue" type="CenterContainer" parent="HBoxContainer/VBoxContainer/_"]
+visible = false
+layout_mode = 2
+
+[node name="begin" type="Button" parent="HBoxContainer/VBoxContainer/_/start_menue"]
+custom_minimum_size = Vector2(200, 118.343)
+layout_mode = 2
+text = "Start Flashing"
+
+[node name="flash_input" type="CenterContainer" parent="HBoxContainer/VBoxContainer/_"]
+layout_mode = 2
+
+[node name="_" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/_/flash_input"]
+layout_mode = 2
+
+[node name="scanerInput" type="LineEdit" parent="HBoxContainer/VBoxContainer/_/flash_input/_"]
+layout_mode = 2
+
+[node name="ScannedList" parent="HBoxContainer/VBoxContainer" instance=ExtResource("2_vj5fw")]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
+layout_mode = 2

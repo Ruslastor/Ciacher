@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://dccd5hxogpgbb"]
+
+[ext_resource type="Script" path="res://blocks/settings_tab.gd" id="1_7xwnr"]
+
+[node name="SettingsTab" type="AcceptDialog"]
+title = "Settings"
+initial_position = 2
+size = Vector2i(400, 300)
+visible = true
+ok_button_text = "Done"
+script = ExtResource("1_7xwnr")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 392.0
+offset_bottom = 251.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="_" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Programmer PATH"
+
+[node name="path" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+clear_button_enabled = true
+
+[node name="files" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+text = "📁"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="_" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Database PATH"
+
+[node name="path" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "user://"
+editable = false
+clear_button_enabled = true
+
+[node name="copy" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+text = "📁"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+initial_position = 2
+size = Vector2i(600, 500)
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/files" to="." method="_on_files_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

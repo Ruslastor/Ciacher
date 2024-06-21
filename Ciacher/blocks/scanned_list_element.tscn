@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://doerr5xp18pb5"]
+
+[ext_resource type="Script" path="res://blocks/scanned_list_element.gd" id="1_j3i0j"]
+
+[node name="ScannedListElement" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 50)
+offset_right = 746.0
+offset_bottom = 40.0
+script = ExtResource("1_j3i0j")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Time" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "19:07"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Id" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "645"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SoftwhareDate" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2024 May 05"
+horizontal_alignment = 1
+vertical_alignment = 1

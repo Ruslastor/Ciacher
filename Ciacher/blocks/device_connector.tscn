@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjttb1avsvkvq"]
+
+[ext_resource type="Script" path="res://blocks/device_connector.gd" id="1_wlnug"]
+[ext_resource type="Texture2D" uid="uid://37wj5qu6bdwu" path="res://assets/ecg.png" id="2_oq0kq"]
+[ext_resource type="PackedScene" uid="uid://cb5apsxpb8t5m" path="res://blocks/yes_no.tscn" id="2_utx65"]
+
+[node name="DeviceConnector" type="PanelContainer"]
+offset_right = 316.0
+offset_bottom = 205.0
+script = ExtResource("1_wlnug")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 35
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Device"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("2_oq0kq")
+expand_mode = 1
+
+[node name="_" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="status" type="Label" parent="VBoxContainer/_"]
+layout_mode = 2
+text = "Not connected"
+
+[node name="YesNo" parent="VBoxContainer/_" instance=ExtResource("2_utx65")]
+layout_mode = 2

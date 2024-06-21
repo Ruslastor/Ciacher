@@ -1,0 +1,101 @@
+[gd_scene load_steps=6 format=3 uid="uid://8utvumhg4cta"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_de1tk"]
+[ext_resource type="Texture2D" uid="uid://c3ukh24q6r0ty" path="res://assets/barcode-scanner.png" id="2_qq3jp"]
+[ext_resource type="PackedScene" uid="uid://cfxxgrdmsermq" path="res://blocks/scanned_list.tscn" id="2_vj5fw"]
+[ext_resource type="PackedScene" uid="uid://bjttb1avsvkvq" path="res://blocks/device_connector.tscn" id="3_frf22"]
+[ext_resource type="PackedScene" uid="uid://bycemr6ea43ri" path="res://blocks/switch.tscn" id="4_nvcpv"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_de1tk")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScannedList" parent="HBoxContainer" instance=ExtResource("2_vj5fw")]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.9
+
+[node name="DeviceConnector" parent="HBoxContainer/VBoxContainer" instance=ExtResource("3_frf22")]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.1
+
+[node name="Switch" parent="HBoxContainer/VBoxContainer" instance=ExtResource("4_nvcpv")]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.9
+
+[node name="_" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.2
+
+[node name="_" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/_"]
+layout_mode = 2
+
+[node name="_" type="PanelContainer" parent="HBoxContainer/VBoxContainer/_/_"]
+layout_mode = 2
+
+[node name="_" type="Label" parent="HBoxContainer/VBoxContainer/_/_/_"]
+layout_mode = 2
+text = "Instruction"
+
+[node name="start_menue" type="CenterContainer" parent="HBoxContainer/VBoxContainer/_/_"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="begin" type="Button" parent="HBoxContainer/VBoxContainer/_/_/start_menue"]
+custom_minimum_size = Vector2(200, 118.343)
+layout_mode = 2
+text = "Start Flashing"
+
+[node name="flash_input" type="CenterContainer" parent="HBoxContainer/VBoxContainer/_/_"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="_" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/_/_/flash_input"]
+layout_mode = 2
+
+[node name="_2" type="TextureRect" parent="HBoxContainer/VBoxContainer/_/_/flash_input/_"]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_qq3jp")
+expand_mode = 1
+
+[node name="scanerInput" type="LineEdit" parent="HBoxContainer/VBoxContainer/_/_/flash_input/_"]
+layout_mode = 2
+theme_override_colors/selection_color = Color(0, 0, 0, 1)
+placeholder_text = "Scan The product"
+max_length = 40
+expand_to_text_length = true
+clear_button_enabled = true
+shortcut_keys_enabled = false
+selecting_enabled = false
+caret_blink = true
+
+[node name="Flash" type="Button" parent="HBoxContainer/VBoxContainer/_/_/flash_input/_"]
+visible = false
+layout_mode = 2
+text = "flash 📲"
+
+[connection signal="text_changed" from="HBoxContainer/VBoxContainer/_/_/flash_input/_/scanerInput" to="." method="_on_scaner_input_text_changed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/_/_/flash_input/_/Flash" to="." method="_on_flash_pressed"]

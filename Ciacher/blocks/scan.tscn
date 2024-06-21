@@ -1,0 +1,107 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhfkc0krnsthy"]
+
+[ext_resource type="Script" path="res://blocks/scan.gd" id="1_u2ato"]
+[ext_resource type="Texture2D" uid="uid://c3ukh24q6r0ty" path="res://assets/barcode-scanner.png" id="1_wwenw"]
+[ext_resource type="Texture2D" uid="uid://caiv32gjv4trc" path="res://assets/download.png" id="3_y7yo6"]
+
+[node name="Scan" type="AcceptDialog"]
+title = "Scanner"
+initial_position = 2
+size = Vector2i(666, 369)
+visible = true
+ok_button_text = "flash 📲"
+script = ExtResource("1_u2ato")
+
+[node name="scan" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(650, 0)
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 658.0
+offset_bottom = 320.0
+theme_override_constants/separation = 25
+
+[node name="_2" type="TextureRect" parent="scan"]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_wwenw")
+expand_mode = 1
+
+[node name="scanerInput" type="LineEdit" parent="scan"]
+layout_mode = 2
+theme_override_colors/selection_color = Color(0, 0, 0, 1)
+placeholder_text = "Scan The product"
+max_length = 57
+expand_to_text_length = true
+clear_button_enabled = true
+selecting_enabled = false
+caret_blink = true
+
+[node name="uploader" type="VBoxContainer" parent="."]
+visible = false
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 658.0
+offset_bottom = 320.0
+theme_override_constants/separation = 25
+
+[node name="_" type="TextureRect" parent="uploader"]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_y7yo6")
+expand_mode = 1
+
+[node name="progress" type="ProgressBar" parent="uploader"]
+layout_mode = 2
+
+[node name="Invalid" type="AcceptDialog" parent="."]
+size = Vector2i(182, 100)
+
+[node name="PanelContainer" type="PanelContainer" parent="Invalid"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 174.0
+offset_bottom = 51.0
+
+[node name="Label" type="Label" parent="Invalid/PanelContainer"]
+layout_mode = 2
+text = "Error: invalid number"
+
+[node name="ComportNotWorking" type="AcceptDialog" parent="."]
+position = Vector2i(0, 36)
+size = Vector2i(257, 100)
+
+[node name="PanelContainer" type="PanelContainer" parent="ComportNotWorking"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 249.0
+offset_bottom = 51.0
+
+[node name="Label" type="Label" parent="ComportNotWorking/PanelContainer"]
+layout_mode = 2
+text = "Error: device is not responding."
+
+[node name="RevriteInDatabase" type="ConfirmationDialog" parent="."]
+initial_position = 2
+size = Vector2i(370, 200)
+ok_button_text = "Yes"
+cancel_button_text = "No"
+
+[node name="PanelContainer" type="PanelContainer" parent="RevriteInDatabase"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 362.0
+offset_bottom = 151.0
+
+[node name="RichTextLabel" type="Label" parent="RevriteInDatabase/PanelContainer"]
+layout_mode = 2
+text = "The number you entered was already flashed, 
+do you want to continue?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="text_changed" from="scan/scanerInput" to="." method="_on_scaner_input_text_changed"]
+[connection signal="confirmed" from="RevriteInDatabase" to="." method="_on_revrite_in_database_confirmed"]

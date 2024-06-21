@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://bycemr6ea43ri"]
+
+[ext_resource type="Script" path="res://Switch.gd" id="1_v280m"]
+
+[node name="Switch" type="PanelContainer"]
+offset_right = 264.0
+offset_bottom = 130.0
+script = ExtResource("1_v280m")
+
+[node name="_" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="inv" type="ColorRect" parent="_"]
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="vis" type="ColorRect" parent="_"]
+layout_mode = 2
+color = Color(1, 1, 1, 0.372549)
+
+[node name="two" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+
+[connection signal="pressed" from="two" to="." method="_on_two_pressed"]
