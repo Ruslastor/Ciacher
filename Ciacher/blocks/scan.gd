@@ -3,18 +3,26 @@ extends AcceptDialog
 @onready var inpt : LineEdit = $scan/scanerInput
 @onready var invalid : AcceptDialog = $Invalid
 @onready var alreadyIn : ConfirmationDialog = $RevriteInDatabase
+@onready var alreadyInText : Label = $RevriteInDatabase/PanelContainer/RichTextLabel
 @onready var comportNotWorking : AcceptDialog = $ComportNotWorking
+
+@onready var flashButon : Button = $scan/FLASH
 
 @onready var scenner : VBoxContainer = $scan
 @onready var uploader : VBoxContainer = $uploader
-@onready var upload_progress : ProgressBar = $uploader/progress
+@onready var upload_progress : ProgressBar = $uploader/_2/_/progress
 
+@onready var infoSDate :Label = $scan/parser/_/_4/_2/SoftDate
+@onready var infoType :Label = $scan/parser/_/_4/_2/Type
+@onready var infoSNum :Label = $scan/parser/_/_4/_2/SerialNumber
+
+@onready var statusIndicator : Label = $uploader/_2/_/YesNo
+
+@onready var parserSpace : CenterContainer = $scan/parser
 
 var started_flashing : bool=false
 
 
-func _ready():
-	get_ok_button().visible = false
 
 var scaner_input_time_elapsed : float = 0
 func _process(delta):
@@ -22,115 +30,88 @@ func _process(delta):
 		scaner_input_time_elapsed += delta
 		if scaner_input_time_elapsed > Config.SCANNING_TIME_S:
 			begin_flashing()
+			
 			scaner_input_time_elapsed = 0
 			started_flashing = false
 		
 		
-	if visible and inpt.text == '':
+	if scenner.visible and inpt.text == '':
 		inpt.grab_focus()
 
 
 
 
-var serial_number : int
-var type : int 
-var date : String
-var full_string : String
-var already_in_database : String
-var operating_database : String
-
+var flashing_record : Record
+var flashing_record_containing_db : String
 func begin_flashing() -> void:
-	operating_database = Config.get_name_for_today_database()
-	full_string = inpt.text
-	var parsed_input : PackedStringArray = full_string.split('#')
-	
-	print(parsed_input)
-	print(Time.get_datetime_dict_from_system())
-	
-	if len(parsed_input) < 8:
+	flashing_record = Record.new(inpt.text)
+	if !flashing_record.is_valid():
 		invalid.popup_centered()
 		return
 	
-	serial_number = int(parsed_input[8])
-	type = int(parsed_input[4])
-	date = parsed_input[7]
+	infoSDate.text = flashing_record.soft_date
+	infoSNum.text = flashing_record.serial_number
+	infoType.text = flashing_record.type_as_str()
+	parserSpace.visible = true
 	
-	already_in_database = serial_number_already_in_databases(str(serial_number))
-	if already_in_database != '':
-		$RevriteInDatabase/PanelContainer/RichTextLabel.text = "The device you scanned is already in\n" + already_in_database + ". Do you want to continue?"
+	flashing_record_containing_db = flashing_record.exists_in_databases()
+	if flashing_record_containing_db != '':
+		alreadyInText.text = 'The number you entered was already flashed on ' + flashing_record_containing_db + ',\n do you want to continue?'
 		alreadyIn.popup_centered()
 		return
-	
-	flash()
-	
+	flashButon.visible = true
 	
 
+	
 func flash() -> void:
-	var result = []
+	open_progress()
 	var tween : Tween = create_tween()
+	var result = []
+	tween.tween_property(upload_progress, "value", 60, 3)
+	
+	OS.execute(Config.PATH_TO_EXE, flashing_record.get_arguments_for_flasher(), result)
+	
+	#if 'COM3 open failed' in result[0]:
+	#	comportNotWorking.popup()
+	#	return
+	
+	flashing_record.add_record_to_db(Config.CURRENT_DATABASE)
+	tween.connect('finished', Callable(finished))
+	tween.tween_property(upload_progress, "value", 100, 0.3)
+	
+	Config.SCANNED_ELEMENTT_LIST.use_database(Config.CURRENT_DATABASE)
+
+func finished() -> void:
+	statusIndicator.set_yesno(true)
+
+func _on_revrite_in_database_confirmed():
+	flashing_record.delete_record_from_db(flashing_record_containing_db)
+	inpt.text = ''
+	flash()#†
+
+func open_progress() -> void:
 	scenner.visible = false
 	upload_progress.value = 0
 	uploader.visible = true
-	
-	print(['-port=' + Config.PORT, str(type), date, str(serial_number)])
-	
-	tween.tween_property(upload_progress, "value", 20, 0.3)
-	OS.execute(Config.PATH_TO_EXE, ['-port=' + Config.PORT, str(type), date, str(serial_number)], result)
-	
-	tween.tween_property(upload_progress, "value", 40, 0.3)
-	if 'COM3 open failed' in result[0]:
-		comportNotWorking.popup()
-		return
-	
-	add_new_to_today_database()
-	#database_list.append(Config.get_name_for_today_database()+'.cdb');
-
-
-func serial_number_already_in_databases(serial_number : String) -> String:
-	for path in Config.DATABASES:
-		var file = FileAccess.open(Config.PATH_TO_DATABASES.path_join(path), FileAccess.READ)
-		for line in file.get_as_text().split('\n'):
-			if serial_number == line.get_slice('\t', 0):
-				file.close()
-				return path
-		file.close()
-	return ''
-
-func clear_input():
-	inpt.text = ''
-
+	size = Vector2.ZERO
+	statusIndicator.set_loading()
 
 func _on_scaner_input_text_changed(new_text):
 	if new_text != '':
 		started_flashing = true
 
 
-func _on_revrite_in_database_confirmed():
-	flash()
-	delete_already_existing()
-	
 
+func _on_about_to_popup():
+	scenner.visible = true
+	upload_progress.value = 0
+	uploader.visible = false
+	inpt.text = ''
+	parserSpace.visible = false
+	statusIndicator.set_loading()
+	get_ok_button().visible = false
+	flashButon.visible = false
+	size = Vector2.ZERO
 
-func add_new_to_today_database():
-	var file = FileAccess.open(Config.PATH_TO_DATABASES.path_join(operating_database), FileAccess.READ)
-	var dict : Dictionary = {}
-	for i in file.get_as_text().split('\n'):
-		dict[i.get_slice('\t', 0)] = i
-	dict[str(serial_number)] = full_string
-	file.close()
-	file = FileAccess.open(Config.PATH_TO_DATABASES.path_join(operating_database), FileAccess.WRITE)
-	file.store_string('\n'.join(dict.values()))
-	file.close()
-
-
-func delete_already_existing():
-	var file = FileAccess.open(Config.PATH_TO_DATABASES.path_join(already_in_database), FileAccess.READ)
-	var dict : Dictionary = {}
-	for i in file.get_as_text().split('\n'):
-		if i.get_slice('\t', 0) == str(serial_number):
-			continue
-		dict[i.get_slice('\t', 0)] = i
-	file.close()
-	file = FileAccess.open(Config.PATH_TO_DATABASES.path_join(already_in_database), FileAccess.WRITE)
-	file.store_string('\n'.join(dict.values()))
-	file.close()
+func _on_flash_pressed():
+	flash()#†

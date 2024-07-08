@@ -2,6 +2,7 @@ extends PanelContainer
 
 @onready var connectionStatus : Label = $VBoxContainer/_/status
 @onready var deviceStatus : Label = $VBoxContainer/_/YesNo
+@onready var settingsTab : AcceptDialog = $SettingsTab
 
 func _ready():
 	var devices : Dictionary = get_connected_devices()
@@ -26,3 +27,7 @@ func get_connected_devices() -> Dictionary:
 		if len(pare) > 1:
 			output[pare[0]] = pare[1]
 	return output
+
+
+func _on_open_settings_pressed():
+	settingsTab.popup_centered()

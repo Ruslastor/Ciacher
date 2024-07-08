@@ -1,21 +1,25 @@
-[gd_scene load_steps=7 format=3 uid="uid://8utvumhg4cta"]
+[gd_scene load_steps=12 format=3 uid="uid://8utvumhg4cta"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_de1tk"]
 [ext_resource type="PackedScene" uid="uid://cfxxgrdmsermq" path="res://blocks/scanned_list.tscn" id="2_vj5fw"]
 [ext_resource type="PackedScene" uid="uid://bjttb1avsvkvq" path="res://blocks/device_connector.tscn" id="3_frf22"]
+[ext_resource type="FontFile" uid="uid://bidrao0rf0lnx" path="res://Fonts/Poppins-Bold.ttf" id="4_40kuc"]
 [ext_resource type="Texture2D" uid="uid://jhfgu5qretng" path="res://assets/circuit-board.png" id="4_uvwol"]
 [ext_resource type="PackedScene" uid="uid://bhfkc0krnsthy" path="res://blocks/scan.tscn" id="5_xfccm"]
+[ext_resource type="FontFile" uid="uid://bdfosxdyhhguo" path="res://Fonts/Poppins-Medium.ttf" id="6_55qxw"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o4tef"]
-border_color = Color(1, 0.694462, 0.840976, 1)
-border_blend = true
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0.201527, 0.201527, 0.201527, 0.6)
-shadow_size = 5
-shadow_offset = Vector2(3.1, 2)
+[sub_resource type="Gradient" id="Gradient_wl88k"]
+colors = PackedColorArray(1.20327e-07, 0.255892, 0.219867, 1, 0, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1clp2"]
+gradient = SubResource("Gradient_wl88k")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hape2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ml0h"]
+bg_color = Color(1, 1, 1, 0.529412)
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -26,7 +30,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_de1tk")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_1clp2")
+
+[node name="_2" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,58 +47,122 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ScannedList" parent="HBoxContainer" instance=ExtResource("2_vj5fw")]
+[node name="empty2" type="PanelContainer" parent="_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.02
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hape2")
+
+[node name="_" type="VBoxContainer" parent="_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.95
+
+[node name="empty4" type="PanelContainer" parent="_2/_"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.02
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hape2")
+
+[node name="ScannedList" parent="_2/_" instance=ExtResource("2_vj5fw")]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="empty3" type="PanelContainer" parent="_2/_"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.02
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hape2")
+
+[node name="empty3" type="PanelContainer" parent="_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.02
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hape2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="_2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.9
 
-[node name="DeviceConnector" parent="HBoxContainer/VBoxContainer" instance=ExtResource("3_frf22")]
+[node name="empty5" type="PanelContainer" parent="_2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.08
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hape2")
+
+[node name="DeviceConnector" parent="_2/VBoxContainer" instance=ExtResource("3_frf22")]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.1
 
-[node name="_" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="empty2" type="PanelContainer" parent="_2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.08
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hape2")
+
+[node name="_" type="PanelContainer" parent="_2/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0ml0h")
 
-[node name="_" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/_"]
+[node name="_" type="VBoxContainer" parent="_2/VBoxContainer/_"]
 layout_mode = 2
 
-[node name="_" type="PanelContainer" parent="HBoxContainer/VBoxContainer/_/_"]
+[node name="_" type="PanelContainer" parent="_2/VBoxContainer/_/_"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_o4tef")
 
-[node name="_" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/_/_/_"]
+[node name="_" type="HBoxContainer" parent="_2/VBoxContainer/_/_/_"]
 layout_mode = 2
 theme_override_constants/separation = 35
 alignment = 1
 
-[node name="_" type="Label" parent="HBoxContainer/VBoxContainer/_/_/_/_"]
+[node name="_" type="Label" parent="_2/VBoxContainer/_/_/_/_"]
 layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("4_40kuc")
+theme_override_font_sizes/font_size = 32
 text = "Flasher"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="_2" type="TextureRect" parent="HBoxContainer/VBoxContainer/_/_/_/_"]
-custom_minimum_size = Vector2(128, 128)
+[node name="_2" type="TextureRect" parent="_2/VBoxContainer/_/_/_/_"]
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
+size_flags_horizontal = 8
 texture = ExtResource("4_uvwol")
 expand_mode = 1
 
-[node name="start_menue" type="CenterContainer" parent="HBoxContainer/VBoxContainer/_/_"]
+[node name="start_menue" type="CenterContainer" parent="_2/VBoxContainer/_/_"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="begin" type="Button" parent="HBoxContainer/VBoxContainer/_/_/start_menue"]
+[node name="begin" type="Button" parent="_2/VBoxContainer/_/_/start_menue"]
 custom_minimum_size = Vector2(200, 118.343)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("6_55qxw")
 text = "Start Flashing"
+
+[node name="empty" type="PanelContainer" parent="_2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.08
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hape2")
+
+[node name="empty" type="PanelContainer" parent="_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.02
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hape2")
 
 [node name="Scan" parent="." instance=ExtResource("5_xfccm")]
 visible = false
 
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/_/_/start_menue/begin" to="." method="_on_begin_pressed"]
+[connection signal="pressed" from="_2/VBoxContainer/_/_/start_menue/begin" to="." method="_on_begin_pressed"]

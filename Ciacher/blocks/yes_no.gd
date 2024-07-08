@@ -6,3 +6,6 @@ func set_yesno(to : bool) -> void:
 		text = '✅'
 	else:
 		text = '⛔'
+
+func set_loading() -> void:
+	text = '🔄'

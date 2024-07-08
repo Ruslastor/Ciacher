@@ -6,7 +6,6 @@
 title = "Settings"
 initial_position = 2
 size = Vector2i(400, 300)
-visible = true
 ok_button_text = "Done"
 script = ExtResource("1_7xwnr")
 
@@ -36,28 +35,30 @@ custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 text = "📁"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="_" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer2"]
+[node name="_" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
-text = "Database PATH"
+text = "Scanning time"
 
-[node name="path" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer2"]
+[node name="path" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "user://"
-editable = false
+text = "1.5"
 clear_button_enabled = true
 
-[node name="copy" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 2
-text = "📁"
-
 [node name="FileDialog" type="FileDialog" parent="."]
+title = "Open a Directory"
 initial_position = 2
 size = Vector2i(600, 500)
+ok_button_text = "Select Current Folder"
+file_mode = 2
+access = 2
+filters = PackedStringArray("*.cdb")
+use_native_dialog = true
 
+[connection signal="about_to_popup" from="." to="." method="_on_about_to_popup"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/files" to="." method="_on_files_pressed"]
+[connection signal="text_changed" from="PanelContainer/VBoxContainer/HBoxContainer3/path" to="." method="_on_path_text_changed"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

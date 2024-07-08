@@ -1,23 +1,41 @@
-[gd_scene load_steps=4 format=3 uid="uid://bhfkc0krnsthy"]
+[gd_scene load_steps=12 format=3 uid="uid://bhfkc0krnsthy"]
 
 [ext_resource type="Script" path="res://blocks/scan.gd" id="1_u2ato"]
 [ext_resource type="Texture2D" uid="uid://c3ukh24q6r0ty" path="res://assets/barcode-scanner.png" id="1_wwenw"]
+[ext_resource type="FontFile" uid="uid://bdfosxdyhhguo" path="res://Fonts/Poppins-Medium.ttf" id="3_f6uec"]
 [ext_resource type="Texture2D" uid="uid://caiv32gjv4trc" path="res://assets/download.png" id="3_y7yo6"]
+[ext_resource type="PackedScene" uid="uid://cb5apsxpb8t5m" path="res://blocks/yes_no.tscn" id="5_vfudu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nr6g6"]
+bg_color = Color(0.627451, 1, 1, 0.701961)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fvkgn"]
+bg_color = Color(1, 1, 1, 0.501961)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t3i18"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s7ftl"]
+bg_color = Color(1, 1, 1, 0.47451)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tqmac"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pnrff"]
 
 [node name="Scan" type="AcceptDialog"]
 title = "Scanner"
 initial_position = 2
-size = Vector2i(666, 369)
+size = Vector2i(666, 530)
 visible = true
-ok_button_text = "flash 📲"
+content_scale_aspect = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_nr6g6")
+ok_button_text = ""
 script = ExtResource("1_u2ato")
 
 [node name="scan" type="VBoxContainer" parent="."]
+visible = false
 custom_minimum_size = Vector2(650, 0)
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 658.0
-offset_bottom = 320.0
+offset_right = 666.0
+offset_bottom = 512.0
 theme_override_constants/separation = 25
 
 [node name="_2" type="TextureRect" parent="scan"]
@@ -38,12 +56,65 @@ clear_button_enabled = true
 selecting_enabled = false
 caret_blink = true
 
+[node name="parser" type="CenterContainer" parent="scan"]
+layout_mode = 2
+
+[node name="_" type="HBoxContainer" parent="scan/parser"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="_3" type="PanelContainer" parent="scan/parser/_"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="_" type="VBoxContainer" parent="scan/parser/_/_3"]
+layout_mode = 2
+
+[node name="_" type="Label" parent="scan/parser/_/_3/_"]
+layout_mode = 2
+text = "Software date:"
+horizontal_alignment = 2
+
+[node name="_2" type="Label" parent="scan/parser/_/_3/_"]
+layout_mode = 2
+text = "Type:"
+horizontal_alignment = 2
+
+[node name="_3" type="Label" parent="scan/parser/_/_3/_"]
+layout_mode = 2
+text = "Serial number:"
+horizontal_alignment = 2
+
+[node name="_4" type="PanelContainer" parent="scan/parser/_"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="_2" type="VBoxContainer" parent="scan/parser/_/_4"]
+layout_mode = 2
+
+[node name="SoftDate" type="Label" parent="scan/parser/_/_4/_2"]
+layout_mode = 2
+text = "23456"
+
+[node name="Type" type="Label" parent="scan/parser/_/_4/_2"]
+layout_mode = 2
+text = "2"
+
+[node name="SerialNumber" type="Label" parent="scan/parser/_/_4/_2"]
+layout_mode = 2
+text = "22123"
+
+[node name="FLASH" type="Button" parent="scan"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_f6uec")
+theme_override_font_sizes/font_size = 28
+text = "flash 📲"
+
 [node name="uploader" type="VBoxContainer" parent="."]
-visible = false
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 658.0
-offset_bottom = 320.0
+offset_right = 666.0
+offset_bottom = 512.0
 theme_override_constants/separation = 25
 
 [node name="_" type="TextureRect" parent="uploader"]
@@ -54,35 +125,60 @@ size_flags_vertical = 4
 texture = ExtResource("3_y7yo6")
 expand_mode = 1
 
-[node name="progress" type="ProgressBar" parent="uploader"]
+[node name="_2" type="PanelContainer" parent="uploader"]
 layout_mode = 2
 
+[node name="_" type="HBoxContainer" parent="uploader/_2"]
+layout_mode = 2
+
+[node name="progress" type="ProgressBar" parent="uploader/_2/_"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="st" type="Label" parent="uploader/_2/_"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_f6uec")
+theme_override_font_sizes/font_size = 20
+text = "     Status: "
+
+[node name="YesNo" parent="uploader/_2/_" instance=ExtResource("5_vfudu")]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_f6uec")
+theme_override_font_sizes/font_size = 20
+
+[node name="_" type="Label" parent="uploader/_2/_"]
+layout_mode = 2
+text = "   "
+
 [node name="Invalid" type="AcceptDialog" parent="."]
-size = Vector2i(182, 100)
+title = "Wrong number ⛔"
+size = Vector2i(213, 106)
+theme_override_styles/panel = SubResource("StyleBoxFlat_fvkgn")
 
 [node name="PanelContainer" type="PanelContainer" parent="Invalid"]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 174.0
-offset_bottom = 51.0
+offset_right = 213.0
+offset_bottom = 65.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_t3i18")
 
 [node name="Label" type="Label" parent="Invalid/PanelContainer"]
 layout_mode = 2
-text = "Error: invalid number"
+text = "The number you entered
+has invalid format."
+horizontal_alignment = 1
 
 [node name="ComportNotWorking" type="AcceptDialog" parent="."]
 position = Vector2i(0, 36)
-size = Vector2i(257, 100)
+size = Vector2i(269, 100)
+theme_override_styles/panel = SubResource("StyleBoxFlat_s7ftl")
 
 [node name="PanelContainer" type="PanelContainer" parent="ComportNotWorking"]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 249.0
-offset_bottom = 51.0
+offset_right = 269.0
+offset_bottom = 59.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_tqmac")
 
 [node name="Label" type="Label" parent="ComportNotWorking/PanelContainer"]
 layout_mode = 2
-text = "Error: device is not responding."
+text = "Programmator is not responding"
 
 [node name="RevriteInDatabase" type="ConfirmationDialog" parent="."]
 initial_position = 2
@@ -95,6 +191,7 @@ offset_left = 8.0
 offset_top = 8.0
 offset_right = 362.0
 offset_bottom = 151.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_pnrff")
 
 [node name="RichTextLabel" type="Label" parent="RevriteInDatabase/PanelContainer"]
 layout_mode = 2
@@ -103,5 +200,7 @@ do you want to continue?"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="about_to_popup" from="." to="." method="_on_about_to_popup"]
 [connection signal="text_changed" from="scan/scanerInput" to="." method="_on_scaner_input_text_changed"]
+[connection signal="pressed" from="scan/FLASH" to="." method="_on_flash_pressed"]
 [connection signal="confirmed" from="RevriteInDatabase" to="." method="_on_revrite_in_database_confirmed"]

@@ -1,66 +1,97 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfxxgrdmsermq"]
+[gd_scene load_steps=8 format=3 uid="uid://cfxxgrdmsermq"]
 
 [ext_resource type="Script" path="res://blocks/scanned_list.gd" id="1_a02mu"]
 [ext_resource type="Texture2D" uid="uid://bgef015atq2jy" path="res://assets/checklist.png" id="2_2xmag"]
+[ext_resource type="FontFile" uid="uid://c6h7rg7qabkk7" path="res://Fonts/Poppins-Regular.ttf" id="2_003cd"]
+[ext_resource type="FontFile" uid="uid://bidrao0rf0lnx" path="res://Fonts/Poppins-Bold.ttf" id="3_p5nsr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0hiwo"]
+bg_color = Color(1, 1, 1, 0.529412)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3bihu"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yvnej"]
 
 [node name="ScannedList" type="PanelContainer"]
 offset_right = 729.0
 offset_bottom = 335.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_0hiwo")
 script = ExtResource("1_a02mu")
 
 [node name="_" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="_2" type="HBoxContainer" parent="_"]
-layout_mode = 2
-theme_override_constants/separation = 35
-
-[node name="Label" type="Label" parent="_/_2"]
-layout_mode = 2
-text = "       Select day: "
-
-[node name="daySelect" type="OptionButton" parent="_/_2"]
+[node name="_2" type="PanelContainer" parent="_"]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="_2" type="Label" parent="_/_2"]
+[node name="_2" type="HBoxContainer" parent="_/_2"]
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="Label" type="Label" parent="_/_2/_2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_003cd")
+text = "       Wybierz datę:"
+
+[node name="daySelect" type="OptionButton" parent="_/_2/_2"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="_2" type="Label" parent="_/_2/_2"]
 layout_mode = 2
 size_flags_horizontal = 10
-text = "Database"
+theme_override_fonts/font = ExtResource("3_p5nsr")
+theme_override_font_sizes/font_size = 32
+text = "Baza Danych"
 
-[node name="_" type="TextureRect" parent="_/_2"]
-custom_minimum_size = Vector2(128, 128)
+[node name="_" type="TextureRect" parent="_/_2/_2"]
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
-size_flags_horizontal = 2
 texture = ExtResource("2_2xmag")
 expand_mode = 1
 
 [node name="_" type="PanelContainer" parent="_"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_3bihu")
 
 [node name="_" type="VBoxContainer" parent="_/_"]
 layout_mode = 2
 
-[node name="title" type="HBoxContainer" parent="_/_/_"]
+[node name="_2" type="PanelContainer" parent="_/_/_"]
+layout_mode = 2
+
+[node name="title" type="HBoxContainer" parent="_/_/_/_2"]
 visible = false
 layout_mode = 2
 
-[node name="_2" type="Label" parent="_/_/_/title"]
+[node name="_2" type="Label" parent="_/_/_/_2/title"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Time"
 horizontal_alignment = 1
 
-[node name="_3" type="Label" parent="_/_/_/title"]
+[node name="_4" type="Label" parent="_/_/_/_2/title"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Type"
+horizontal_alignment = 1
+
+[node name="_3" type="Label" parent="_/_/_/_2/title"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Serial Number"
 horizontal_alignment = 1
 
-[node name="_" type="Label" parent="_/_/_/title"]
+[node name="_" type="Label" parent="_/_/_/_2/title"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Softwhare Date"
@@ -69,6 +100,7 @@ horizontal_alignment = 1
 [node name="_" type="ScrollContainer" parent="_/_/_"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_yvnej")
 horizontal_scroll_mode = 0
 
 [node name="list" type="VBoxContainer" parent="_/_/_/_"]
@@ -77,12 +109,17 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="_"]
+[node name="_3" type="PanelContainer" parent="_"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.01
+
+[node name="_" type="HBoxContainer" parent="_/_3"]
 layout_mode = 2
 
-[node name="Info" type="Label" parent="_/HBoxContainer"]
+[node name="Info" type="Label" parent="_/_3/_"]
 visible = false
 layout_mode = 2
 text = "Done: 123"
 
-[connection signal="item_selected" from="_/_2/daySelect" to="." method="_on_day_select_item_selected"]
+[connection signal="item_selected" from="_/_2/_2/daySelect" to="." method="_on_day_select_item_selected"]

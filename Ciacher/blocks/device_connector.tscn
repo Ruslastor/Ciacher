@@ -1,12 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://bjttb1avsvkvq"]
+[gd_scene load_steps=8 format=3 uid="uid://bjttb1avsvkvq"]
 
 [ext_resource type="Script" path="res://blocks/device_connector.gd" id="1_wlnug"]
+[ext_resource type="FontFile" uid="uid://bidrao0rf0lnx" path="res://Fonts/Poppins-Bold.ttf" id="2_k4o1l"]
 [ext_resource type="Texture2D" uid="uid://37wj5qu6bdwu" path="res://assets/ecg.png" id="2_oq0kq"]
 [ext_resource type="PackedScene" uid="uid://cb5apsxpb8t5m" path="res://blocks/yes_no.tscn" id="2_utx65"]
+[ext_resource type="PackedScene" uid="uid://dccd5hxogpgbb" path="res://blocks/settings_tab.tscn" id="4_a20qx"]
+[ext_resource type="FontFile" uid="uid://bdfosxdyhhguo" path="res://Fonts/Poppins-Medium.ttf" id="4_hre7a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5cs50"]
+bg_color = Color(1, 1, 1, 0.529412)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="DeviceConnector" type="PanelContainer"]
 offset_right = 316.0
 offset_bottom = 205.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_5cs50")
 script = ExtResource("1_wlnug")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -20,25 +31,45 @@ layout_mode = 2
 theme_override_constants/separation = 35
 alignment = 1
 
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="open_settings" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+text = "⚙️"
+
 [node name="Label" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
-text = "Device"
+size_flags_horizontal = 10
+theme_override_fonts/font = ExtResource("2_k4o1l")
+theme_override_font_sizes/font_size = 28
+text = "FP6"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/PanelContainer/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
+size_flags_horizontal = 8
 texture = ExtResource("2_oq0kq")
 expand_mode = 1
 
 [node name="_" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 alignment = 1
 
 [node name="status" type="Label" parent="VBoxContainer/_"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_hre7a")
+theme_override_font_sizes/font_size = 20
 text = "Not connected"
 
 [node name="YesNo" parent="VBoxContainer/_" instance=ExtResource("2_utx65")]
 layout_mode = 2
+
+[node name="SettingsTab" parent="." instance=ExtResource("4_a20qx")]
+
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/open_settings" to="." method="_on_open_settings_pressed"]
